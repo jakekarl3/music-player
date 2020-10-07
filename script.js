@@ -93,7 +93,6 @@ loadSong(songs[songIndex]);
 function updateProgressBar(e) {
   if (isPlaying) {
     const { duration, currentTime } = e.srcElement;
-    console.log(duration, currentTime);
     // Update progress bar width
     const progressPercent = (currentTime / duration) * 100;
     progress.style.width = `${progressPercent}%`;
@@ -117,7 +116,17 @@ function updateProgressBar(e) {
   }
 }
 
+// Set Progress Bar
+function setProgressBar(e) {
+  const width = this.clientWidth;
+  const clickX = e.offsetX;
+  const { duration } = music;
+  music.currentTime = (clickX / width) * duration;
+}
+
 // Event Listners
 prevBtn.addEventListener('click', prevSong);
 nextBtn.addEventListener('click', nextSong);
+music.addEventListener('ended', nextSong);
 music.addEventListener('timeupdate', updateProgressBar);
+progressContainer.addEventListener('click', setProgressBar);
